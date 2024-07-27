@@ -6,7 +6,7 @@ Any communications or issues are welcomed. Please contact liuyi@stu.cqu.edu.cn.
 If you find this repository useful to your research or work, it is really appreciate to star this repository.
 
 ## Overview
-[Network.pdf](https://github.com/user-attachments/files/16400312/Network.png)
+![image](https://github.com/user-attachments/assets/9c7bc4e7-279e-47f3-a498-eadefa005604)
 
 
 ## Requirements
