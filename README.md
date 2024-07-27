@@ -1,2 +1,1 @@
-# EMVCC
-ACM MM(2024)
+# EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images (ACM MM2024)
