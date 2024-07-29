@@ -9,17 +9,17 @@ def Draw_Classification(pred, label, name, acc, scale: float = 4.0, dpi: int = 4
               "slategrey", "b", "red", "darkcyan", "grey", "olive", "gold", "green"]
     indices = np.where(label != 0)
     label[indices] = pred
-    # 创建一个空白的RGB图像，形状与label相同
+    # Create a blank RGB image with the same shape as the label
     rgb_label = np.zeros((label.shape[0], label.shape[1], 3), dtype=np.uint8)
 
-    # 将颜色值赋给每个类别对应的像素
+    # Assign color values to the pixels corresponding to each category
     for i, color in enumerate(colors):
         rgb = np.array(mcolors.to_rgb(color)) * 255
         rgb_label[label == i] = rgb.astype(np.uint8)
 
     fig, ax = plt.subplots()
     ax.set_axis_off()
-    ax.imshow(rgb_label)  # 显示彩色图像
+    ax.imshow(rgb_label)  # Display color images
     fig.set_size_inches(label.shape[1] * scale / dpi, label.shape[0] * scale / dpi)
 
     foo_fig = plt.gcf()
