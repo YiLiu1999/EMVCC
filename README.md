@@ -1,4 +1,4 @@
-# [ACMMM 2024] EMVCC
+# EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images [ACMMM 2024] EMVCC
 
 ## 👀 Introduction
 
