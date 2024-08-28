@@ -1,7 +1,8 @@
 # EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images [ACMMM 2024]
 https://openreview.net/forum?id=Twe5GWM0Hl&noteId=Twe5GWM0Hl
 ## 👀 Introduction
-[![Openreview](https://openreview.net/forum?id=Twe5GWM0Hl&noteId=Twe5GWM0Hl)](https://arxiv.org/abs/2211.12256)&nbsp;&nbsp;
+[![Openreview](https://img.shields.io/badge/Paper-arXiv-%23B31B1B?style=flat-square)](https://openreview.net/forum?id=Twe5GWM0Hl&noteId=Twe5GWM0Hl)&nbsp;&nbsp;
+
 An official source code for paper EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images, accepted by ACM MM(2024).
 Any communications or issues are welcomed. 
 If you find this repository useful to your research or work, it is really appreciate to star this repository.
