@@ -12,7 +12,8 @@ An official source code for paper EMVCC:Enhanced Multi-View Contrastive Clusteri
 Any communications or issues are welcomed. 
 If you find this repository useful to your research or work, it is really appreciate to star this repository.
 
-![image](https://github.com/user-attachments/assets/b6df0684-37c9-4441-ba1e-3cd23af05f98)
+![image](https://github.com/user-attachments/assets/d1263dfd-94a6-4246-be73-c00c5f2ea17f)
+
 
 
 ## 💡 Environment
