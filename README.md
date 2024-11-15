@@ -1,6 +1,6 @@
 # EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images
 
-[EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images](https://openreview.net/pdf?id=Twe5GWM0Hl). **ACMMM 2024**.
+[EMVCC:Enhanced Multi-View Contrastive Clustering for Hyperspectral Images](https://dl.acm.org/doi/10.1145/3664647.3681600). **ACMMM 2024**.
 **by [Fulin Luo](https://scholar.google.com/citations?user=TICo9iQAAAAJ&hl=zh-CN&oi=ao), [Yi Liu](https://github.com/YiLiu1999), [Xiuwen Gong](https://scholar.google.com/citations?hl=zh-CN&user=zVt8s84AAAAJ&view_op=list_works&sortby=pubdate), [Zhixiong Nan]() and [Tan Guo](https://scholar.google.com/citations?user=Qe7yChcAAAAJ&hl=zh-CN)**
 
 [![Project Page](https://img.shields.io/badge/Project%20Page-%23D80082?logo=&style=flat-square)]()&nbsp;&nbsp;
