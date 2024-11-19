@@ -1,12 +1,3 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 27 19:14:15 2018
-
-@author: liubing
-"""
-
-# 计算每个批次中的每个像素之间的相似性，然后使用图卷积神经网络。
 import scipy.io as sio
 import numpy as np
 from sklearn.decomposition import PCA
