@@ -14,46 +14,46 @@ from matplotlib import pyplot as plt
 import cv2
 
 # indian
-# img = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/Indian_pines_corrected.mat')
+# img = sio.loadmat('Indian_pines_corrected.mat')
 # img = img['indian_pines_corrected']
-# gt = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/Indian_pines_gt.mat')
+# gt = sio.loadmat('Indian_pines_gt.mat')
 # gt = gt['indian_pines_gt']
 # img, gt = img[30:115, 24:94, :], gt[30:115, 24:94]
 
 # paviau
-# data = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/PaviaU.mat')
+# data = sio.loadmat('PaviaU.mat')
 # img = data['paviaU']
 # gt = data['paviaU_gt']
 
 # hanchuan
 # data_mat = sio.loadmat(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/WHU_Hi_HanChuan.mat')
+#     'WHU_Hi_HanChuan.mat')
 # img = data_mat['WHU_Hi_HanChuan']
 # gt_mat = sio.loadmat(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/WHU_Hi_HanChuan_gt.mat')
+#     'WHU_Hi_HanChuan_gt.mat')
 # gt = gt_mat['WHU_Hi_HanChuan_gt']
 
 # salinas
-# img = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/Salinas.mat')
+# img = sio.loadmat('Salinas.mat')
 # img = img['salinas']
-# gt = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/distribute/Salinas_gt.mat')
+# gt = sio.loadmat('Salinas_gt.mat')
 # gt = gt['salinas_gt']
 
 # botswana
-# img = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/Botswana.mat')
+# img = sio.loadmat('Botswana.mat')
 # img = img['Botswana']
-# gt = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/Botswana_gt.mat')
+# gt = sio.loadmat('Botswana_gt.mat')
 # gt = gt['Botswana_gt']
 
 # HoustonU
-data = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/HoustonU.mat')
+data = sio.loadmat('HoustonU.mat')
 img = data['HoustonU']
 gt = data['HoustonU_GT']
 
 # Yancheng
-# data = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/yancheng/data_hsi.mat')
-# y1 = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/yancheng/train_label.mat')
-# y2 = sio.loadmat('/home/students/master/2022/liuy/PyCharm-Remote/learn/Dataset/yancheng/test_label.mat')
+# data = sio.loadmat('data_hsi.mat')
+# y1 = sio.loadmat('train_label.mat')
+# y2 = sio.loadmat('test_label.mat')
 # img = data['data']
 # gt = y1['train_label'] + y2['test_label']
 
@@ -144,41 +144,34 @@ import h5py
 
 # # indian
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/IP-32-32-206.h5',
 #     'w')
 
 # # paviau
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/pu-28-28-109.h5',
 #     'w')
 # yancheng
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/yc-28-28-259.h5',
 #     'w')
 # Salinas
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/Sa-28-28-230.h5',
 #     'w')
 
 # Botswana
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/Bw-28-28-151.h5',
 #     'w')
 
 # houstonu
 f = h5py.File(
-    '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
     '/dataset/data/HU-32-32-200.h5',
     'w')
 
 # hanchuan
 # f = h5py.File(
-#     '/home/students/master/2022/liuy/PyCharm-Remote/learn/Hyperspectral_Image_Clustering/KD/ContrastiveLearning/EMVCC'
 #     '/dataset/data/HC-28-28-280.h5',
 #     'w')
 
