@@ -9,7 +9,6 @@ import cv2
 # img = img['indian_pines_corrected']
 # gt = sio.loadmat('Indian_pines_gt.mat')
 # gt = gt['indian_pines_gt']
-# img, gt = img[30:115, 24:94, :], gt[30:115, 24:94]
 
 # paviau
 # data = sio.loadmat('PaviaU.mat')
@@ -48,7 +47,6 @@ gt = data['HoustonU_GT']
 # img = data['data']
 # gt = y1['train_label'] + y2['test_label']
 
-# img, gt = img[0:349, 100:200, :], gt[0:349, 100:200]
 m, n, b = img.shape
 num = np.bincount(gt.reshape(-1))
 
