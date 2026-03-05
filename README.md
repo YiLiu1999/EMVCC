@@ -1,27 +1,26 @@
+<h1 align="center">EMVCC</h1>
 
-<h1 align="center">Seeing Clearly without Training</h1>
-
-<p align="center"><strong>Mitigating Hallucinations in Multimodal LLMs for Remote Sensing</strong></p>
+<p align="center"><strong>Enhanced Multi-View Contrastive Clustering for Hyperspectral Images</strong></p>
 
 <p align="center">
-  <b>Yi Liu</b><sup>1,2</sup> &nbsp; <b>Jing Zhang</b><sup>1,2</sup><code>†</code> &nbsp; <b>Di Wang</b><sup>1,2</sup><code>†</code> &nbsp; <b>Xiaoyu Tian</b><sup>3</sup> &nbsp; <b>Haonan Guo</b><sup>1,2</sup> &nbsp; <b>Bo Du</b><sup>1,2</sup><code>†</code>
+  <b>Fulin Luo</b><sup>1</sup> &nbsp; <b>Yi Liu</b><sup>1</sup> &nbsp; <b>Xiuwen Gong</b><sup>2</sup> &nbsp; <b>Zhixiong Nan</b><sup>1</sup> &nbsp; <b>Tan Guo</b><sup>3</sup><code>∗</code>
 </p>
 
 
 <p align="center">
-  <sup>1</sup> School of Computer Science, Wuhan University, China &nbsp;&nbsp;|&nbsp;&nbsp; <sup>2</sup> Zhongguancun Academy, China &nbsp;&nbsp;|&nbsp;&nbsp; <sup>3</sup> School of Computer Science, Chongqing University, China
-</p>
-<p align="center">
-  <small><code>†</code> Corresponding Author</small>
+  <sup>1</sup> College of Computer Science, Chongqing University, China &nbsp;&nbsp;|&nbsp;&nbsp; <sup>2</sup> Faculty of Engineering, The University of Sydney, Australia &nbsp;&nbsp;|&nbsp;&nbsp; <sup>3</sup> Chongqing University of Posts and Telecommunications, China
 </p>
 
 
 <p align="center">
-  <a href="https://github.com/MiliLab/RADAR"><img src="https://img.shields.io/badge/🌐-Project%20Page-6c757d?style=flat-square" alt="Project"></a>
+  <small><code>∗</code> Corresponding Author</small>
+</p>
+
+
+<p align="center">
+  <a href="https://doi.org/10.1145/3664647.3681600"><img src="https://img.shields.io/badge/ACM%20MM%20'24-10.1145%2F3664647.3681600-0085ca?style=flat-square" alt="DOI"></a>
   &nbsp;
-  <a href="https://arxiv.org/abs/2603.02754"><img src="https://img.shields.io/badge/arXiv-2603.02754-b31b1b?style=flat-square" alt="arXiv"></a>
-  &nbsp;
-  <a href="https://huggingface.co/datasets/LIUYIfasdf/RSHBench"><img src="https://img.shields.io/badge/📊-Data%20(RSHBench)-ffcc00?style=flat-square" alt="Data"></a>
+  <a href="https://github.com/YiLiu1999/EMVCC"><img src="https://img.shields.io/badge/Code-EMVCC-green?style=flat-square" alt="Code"></a>
 </p>
 
 
@@ -29,52 +28,51 @@
   If you find this project helpful, please consider giving it a <strong>⭐ star</strong>!
 </p>
 
----
-
-## 🔥 News
-
-- **[2025]** We release the code and **RSHBench** benchmark for hallucination diagnosis in RS-VQA.
-- **[2025]** We propose **RADAR** (Relative Attention-Driven Actively Reasoning), a training-free inference method that reduces factual and logical hallucinations via query-conditioned relative attention and progressive evidence acquisition.
 
 ---
 
 ## 📖 Introduction
 
-Multimodal large language models (MLLMs) suffer from pronounced **hallucinations** in remote sensing visual question-answering (RS-VQA), mainly due to: (1) **Type 1 — Cannot find:** attention becomes diffuse and misses the target region; (2) **Type 2 — Cannot see clearly:** the model attends the right area but fails at fine-grained recognition. To address this, we introduce:
+Cross-view consensus representation is critical for **hyperspectral image (HSI) clustering**. Existing multi-view contrastive methods suffer from: (1) **False negatives** — contrastive learning may treat similar heterogeneous views as positive pairs and dissimilar homogeneous views as negative pairs; (2) **Clustering-agnostic representation** — self-supervised contrastive features are not designed for clustering. To address this, we propose **EMVCC** (Enhanced Multi-View Contrastive Clustering):
 
-- **RSHBench** — A protocol-driven benchmark for fine-grained diagnosis of **factual** and **logical** hallucinations in RS-VQA, with standardized generation and multi-judge evaluation.
-- **RADAR** — A **training-free** inference framework that uses **Query-Conditioned Relative Attention (QCRA)** to guide a two-stage zoom-in: *where*-oriented localization followed by *what*-oriented fine-grained evidence refinement, with a focus test to avoid cropping when attention is diffuse.
+- **Spatial multi-view** — Spectral segmentation builds multi-view data; **spectrum-view** is processed by a **Transformer** to capture global spectral information and enhance the distinction between neighboring samples in spatial views.
+- **Self-Supervised Joint Loss (SSJL)** — Constrains consensus representation from multiple perspectives to reduce false negatives:
+  - **NT-Xent (contrastive loss)** — Pulls together different views of the same sample and pushes apart different samples.
+  - **Feature Enhanced loss (FE)** — Probabilistic contrastive constraint preserves multi-view diversity and brings similar samples closer in semantic space.
+  - **Cluster-Friendly loss (CF)** — Aligns view features with high-confidence pseudo-labels so the network learns clustering-friendly features.
+- **K-means** updates cluster centers during training; labels are assigned by similarity to cluster centers **without post-processing**.
 
-Extensive experiments show that RADAR consistently improves RS-VQA accuracy (e.g. +2%–4% on representative benchmarks) and reduces hallucination rates (e.g. ~10% reduction on RSHBench).
+Experiments on Salinas, Botswana, Indian Pines, and Houston show that EMVCC outperforms state-of-the-art HSI clustering methods.
 
-### Query-Conditioned Relative Attention (QCRA)
+---
 
-Given an image and task-focused query vs. global-comprehension query, we derive layer-wise relative attention and aggregate top-$k$ layers to produce a query-conditioned heatmap for region selection.
-<img width="3600" height="1617" alt="method" src="https://github.com/user-attachments/assets/0f46e4a6-caa8-41fd-aefa-0df4ec0d95d9" />
+## 🏗️ Method Overview
 
-
-*Figure 1: QCRA pipeline — relative attention contrast and multi-scale evidence construction.*
+- **Multi-view construction:** Split spectral channels in half → PCA to 3-D per half → sliding-window patches → data augmentation (crop, flip, rotate, etc.) for spatial views; full spectrum as an extra view.
+- **Spectrum-enhanced spatial view:**
+  - **Spatial branch:** ResNet extracts spatial features → projection head & classification head.
+  - **Spectrum branch:** Transformer extracts global spectral features → projection head & classification head.
+  - **Fusion:** Projection features are summed for consensus contrastive representation; classification features are summed for cluster-friendly loss.
+- **Loss:** `L = L_NT + α·L_FE + β·L_CF` (α=1, β=0.1 in the paper).
 
 ---
 
 ## 📂 Repository Structure
 
 ```
-msswift/
-├── RSHBench/
-│   ├── infer.py         # Run model inference (reasoning + answer)
-│   ├── eval.py          # Multi-judge hallucination evaluation
-│   ├── score.py         # Aggregate HR and subtype statistics
-│   └── score_judge.py   # Judge reliability (LOO, agreement)
-├── prompt/              # COT, hallucination judge prompts
-├── infer_qwen.py        # Main inference with RADAR 
-├── infer_llava.py       # RADAR inference for LLaVA 
-├── qwen_methods.py      # QCRA & RADAR logic for Qwen-VL
-├── llava_methods.py     # QCRA & RADAR logic for LLaVA 
-├── model_infer.sh       # Multi-GPU parallel inference
-├── add_chunk.py         # Merge chunked inference results
-├── get_score.py         # VQA accuracy scoring 
-└── README.md
+EMVCC/
+├── main.py                 # Training and evaluation entry
+├── utils.py                # Dataset, metrics (OA, NMI, AMI, ARI, FMI, Kappa, Purity)
+├── losses.py               # NT_Xent, PCLoss (FE), FC_loss (CF)
+├── show.py                 # Clustering maps and t-SNE visualization
+├── module/
+│   ├── EMVCC.py            # Main model (ResNet + Transformer fusion)
+│   ├── ResNet.py           # ResNet50 spatial encoder
+│   └── Spectral.py        # Transformer spectral encoder
+├── dataset/
+│   └── create_dataset.py   # Build multi-view H5 from raw HSI .mat
+└── cluster/
+    └── kmeans.py           # K-means for cluster center update
 ```
 
 ---
@@ -83,230 +81,119 @@ msswift/
 
 ```bash
 # Clone the repository
-git clone https://github.com/MiliLab/RADAR.git
-cd RADAR
+git clone https://github.com/YiLiu1999/EMVCC.git
+cd EMVCC
 
 # Create environment (Python 3.10 recommended)
-conda create -n rshbench python=3.10
-conda activate rshbench
+conda create -n emvcc python=3.10
+conda activate emvcc
 
-# Install dependencies (transformers, torch, PIL, etc.)
-pip install torch torchvision transformers pillow numpy tqdm
-# For Qwen2-VL: pip install qwen-vl-utils
-# For LLaVA/OneVision: ensure swift and compatible transformers are installed
+# Install dependencies
+pip install torch torchvision
+pip install h5py scipy numpy scikit-learn tqdm pandas matplotlib
+# Optional: pip install thop  # for FLOPs/params
 ```
 
 ---
 
-## 💡 Demo & Usage
+## 💡 Data Preparation & Usage
 
-### Run RADAR Inference 
+### 1. Raw data
 
-** Qwen-VL:**
+Prepare HSI cube and ground-truth labels (`.mat`), e.g.:
 
-```bash
-python infer_qwen.py \
-    --model qwen3_4b \
-    --task MME-RealWorld-RS \
-    --att 640 \
-    --total_chunks 1 \
-    --chunk_id 0 \
-    --save_path ./outputs \
-    --stage stage1 \
-```
+- Indian Pines: `Indian_pines_corrected.mat` + `Indian_pines_gt.mat`
+- Pavia University: `PaviaU.mat` + `PaviaU_gt.mat`
+- Salinas: `Salinas.mat` + `Salinas_gt.mat`
+- Botswana: `Botswana.mat` + `Botswana_gt.mat`
+- Houston: `HoustonU.mat` + `HoustonU_GT.mat`
+- HanChuan: `WHU_Hi_HanChuan.mat` + `WHU_Hi_HanChuan_gt.mat`
 
-**LLaVA / LLaVA-OneVision:**
+### 2. Build H5 multi-view dataset
 
-```bash
-python infer_llava.py \
-    --model_name your_llava_model \
-    --task MME-RealWorld-RS \
-    --save_path ./outputs
-```
+In `dataset/create_dataset.py`:
 
-### Key Options
+- Uncomment the block for your dataset and set `img` / `gt` paths to your `.mat` files.
+- Set the output path in `h5py.File(...)` (e.g. `Sa-28-28-230.h5`).
+- Run the script. Output H5 must have:
+  - `data`: shape compatible with `utils.HsiDataset` (e.g. `(N, 28, 28, b)` — first 6 channels for two spatial views, rest for spectrum).
+  - `label`: per-sample class index (0-based).
 
-| Option                          | Description                                      |
-| ------------------------------- | ------------------------------------------------ |
-| `--model`                       | Model alias (e.g. `qwen3_4b`, `geozero`)         |
-| `--task`                        | Dataset: `lhrs`, `lrsbench`, `MME_RealWorld`etc. |
-| `--Image_size`                  | Max side length for attention/resize (e.g. 640)  |
-| `--total_chunks` / `--chunk_id` | Data sharding for multi-GPU                      |
+Adjust `PATCH_SIZE` if you need 28×28 patches (e.g. use 14 for 28×28) or change `reshape` in `utils.py` accordingly.
 
-RADAR is **training-free**: it uses the model’s internal attention to compute QCRA, runs a focus test, and optionally crops to question-relevant regions before generating the final answer.
+### 3. Set paths in main.py
 
-### Multi-GPU Inference
+- Set `f = h5py.File('...')` and `ture_y = sio.loadmat('...')` to your H5 and ground-truth paths.
+- The script sets `c` (number of clusters), `num`, and `b` per dataset; ensure `b` matches the H5 channel count.
 
-Edit `model_infer.sh` (GPU IDs, chunks, model, task), then:
+### Run training
 
 ```bash
-bash model_infer.sh
+# Default: Indian Pines (dataset id 0)
+python main.py --dataset 0
+
+# Other datasets: 0=indian, 1=paviau, 2=salinas, 3=botswana, 4=houstonu, 5=hanchuan
+python main.py --dataset 2 --epochs 200 --batch_size 128 --anchors 16
 ```
 
-Merge chunk results with `add_chunk.py` if needed.
+### Key options
 
-### RSHBench: Hallucination Evaluation Pipeline
+| Option          | Description                                       |
+| --------------- | ------------------------------------------------- |
+| `--dataset`     | Dataset id (0–5)                                  |
+| `--feature_dim` | Projection dimension (default: 128)               |
+| `--temperature` | Contrastive loss temperature (default: 0.5)       |
+| `--epochs`      | Training epochs (default: 200)                    |
+| `--batch_size`  | Batch size (default: 128)                         |
+| `--anchors`     | Number of clusters (set automatically by dataset) |
+| `--embedding`   | Embedding / cluster center dim (default: 128)     |
 
-1. **Inference** — Generate reasoning + answer for each sample:
-
-   ```bash
-   python RSHBench/infer.py \
-       --dataset path/to/dataset.json \
-       --model_name your_model_name \
-       --output_dir outputs/
-   ```
-
-2. **Multi-judge evaluation** — Annotate hallucination (binary + taxonomy):
-
-   ```bash
-   python RSHBench/eval.py \
-       --input outputs/infer.jsonl \
-       --judge_model judge_name \
-       --output outputs/eval.jsonl
-   ```
-
-3. **Aggregate results** — HR and subtype statistics:
-
-   ```bash
-   python RSHBench/score.py --input outputs/eval.jsonl
-   ```
-
-4. **Judge reliability (optional):**
-
-   ```bash
-   python RSHBench/score_judge.py --input outputs/eval.jsonl
-   ```
+**Note:** Default device in `main.py` is `cuda:2`; change it if needed. Best model and logs are saved under `./results/<dataname>/`. Update the save path in `show.py` if you use a different results directory.
 
 ---
 
-## 🧠 Hallucination Taxonomy (RSHBench)
+## 📊 Datasets & Implementation Details
 
-- **Factual:** OBJ (object/category), ATT (attribute), SPA (spatial/relational).
-- **Logical:** IR (invalid reasoning), CI (unjustified causality), INC (internal inconsistency), SO (semantic over-attribution).
+From the paper (Table 1). Same multi-view setup is used for fair comparison.
 
-Hallucination rate (HR) and subtype statistics are computed over the evaluation set; consensus can be obtained via majority vote across judges.
+| Dataset      | Clusters | Samples | Views | Patch size | Bands |
+| ------------ | -------- | ------- | ----- | ---------- | ----- |
+| Salinas      | 16       | 54,129  | 3     | 28×28×3    | 224   |
+| Botswana     | 14       | 3,248   | 3     | 28×28×3    | 145   |
+| Indian Pines | 16       | 10,249  | 3     | 28×28×3    | 200   |
+| Houston      | 15       | 15,029  | 3     | 28×28×3    | 144   |
+
+**Implementation:** ResNet-50 + Transformer (6 heads); classification head hidden dim 2048, projection head 2048→128; Adam, lr=1e-3, weight_decay=1e-6; α=1, β=0.1.
 
 ---
 
 ## 🌟 Evaluation
 
-We evaluate RADAR on:
+Clustering metrics: **OA**, **Kappa**, **Purity**, **ARI**, **AMI**, **FMI**, **NMI**. Example results (paper Table 2, best in bold):
 
-- **LRS-VQA** (FAIR, Bridge, STAR) — large-scale RS imagery reasoning  
-- **MME-RealWorld-RS** (Position, Color, Count) — localization and attribute discrimination  
-- **LHRS-Bench** — recognition, spatial perception, and reasoning  
-- **RSHBench** — hallucination rate (HR) and fine-grained factual/logical breakdown  
-
-RADAR consistently improves accuracy on these benchmarks and reduces both factual and logical hallucinations. Below are key tables from the paper.
-
----
-
-### Judge agreement (LOO) on RSHBench
-
-Leave-one-out agreement of expert judges for the binary hallucination decision (Accuracy, Cohen's κ, MCC).
-
-| Judge        | Accuracy   | Cohen's κ  | MCC        |
-| ------------ | ---------- | ---------- | ---------- |
-| Gemini-3-pro | 0.7882     | 0.5726     | 0.5770     |
-| GPT-5.2      | **0.9288** | **0.8553** | **0.8591** |
-| Qwen3-max    | 0.9045     | 0.8058     | 0.8070     |
-
----
-
-### Hallucination evaluation on RSHBench (consensus)
-
-All values are percentages. **HR** = overall hallucination rate; **HR_F** = Factual, **HR_L** = Logical. Subtypes: OBJ, ATT, SPA (factual); IR, CI, INC, SO (logical).
-
-| Models            | OBJ       | ATT       | SPA       | HR_F      | IR        | CI       | INC      | SO       | HR_L      | **HR**    |
-| ----------------- | --------- | --------- | --------- | --------- | --------- | -------- | -------- | -------- | --------- | --------- |
-| *Closed-source*   |           |           |           |           |           |          |          |          |           |           |
-| Claude-3-7        | 40.70     | 28.30     | 11.32     | 55.53     | 20.49     | 0.27     | 1.08     | 14.29    | 24.53     | 56.33     |
-| Gemini-2.5-pro    | 33.42     | 31.54     | 15.36     | 48.79     | 27.49     | 0.54     | 0.81     | 15.09    | 29.65     | 49.06     |
-| GPT-4o            | 30.19     | 26.68     | 11.32     | 46.90     | **19.41** | 0.27     | **0.27** | 11.05    | **21.02** | 47.44     |
-| *Open-source*     |           |           |           |           |           |          |          |          |           |           |
-| GLM-4.6v          | 35.31     | **21.02** | **9.16**  | 48.79     | 21.02     | **0.00** | 0.54     | **9.16** | 22.91     | 49.60     |
-| LLaVA-1.5-7B      | **25.88** | 29.11     | 14.29     | 46.90     | 25.61     | 2.96     | 2.70     | 16.71    | 26.95     | 47.71     |
-| Qwen3-VL-4B       | 44.47     | 31.81     | 14.82     | 61.19     | 29.92     | 0.27     | 2.43     | 15.63    | 34.77     | 61.19     |
-| LLaMA-3.2-90B     | 35.85     | 25.88     | 12.13     | 51.48     | 26.15     | 0.27     | 3.77     | 15.36    | 29.11     | 52.02     |
-| GeoZero           | 33.42     | 33.96     | 15.90     | 49.87     | 28.30     | 3.77     | 2.16     | 18.06    | 29.65     | 49.87     |
-| **GeoZero+RADAR** | **28.03** | **25.61** | **13.48** | **38.54** | 21.83     | 2.16     | 1.89     | 15.63    | 24.80     | **38.81** |
-
----
-
-### Overall accuracy (%) on RS-VQA benchmarks
-
-Accuracy on LRS-VQA (FAIR, Bridge, STAR, AA), MME-RealWorld-RS (Position, Color, Count, AA), LHRS-Bench. **Avg.** = mean across the three benchmarks.
-
-| Methods             | FAIR      | Bridge    | STAR      | LRS-VQA AA | Position  | Color     | Count     | MME AA    | LHRS-Bench | **Avg.**  |
-| ------------------- | --------- | --------- | --------- | ---------- | --------- | --------- | --------- | --------- | ---------- | --------- |
-| Llama-4-scout       | 19.72     | 29.19     | 23.73     | 24.21      | 26.70     | 23.72     | 15.64     | 22.02     | 37.33      | 27.85     |
-| GPT-4o              | 22.89     | 24.39     | 29.78     | 25.69      | 36.37     | 32.43     | 15.89     | 28.23     | 66.19      | 40.04     |
-| Qwen3-VL-4B         | 26.23     | 29.47     | 32.86     | 29.52      | 55.53     | 40.24     | 7.59      | 34.45     | 65.35      | 43.11     |
-| Qwen3-VL-8B         | 29.71     | 32.77     | **35.01** | 32.49      | 54.97     | 46.06     | 14.44     | 38.49     | 66.03      | 45.67     |
-| GeoChat             | 20.18     | 24.54     | 13.75     | 19.49      | 25.06     | 23.11     | 15.66     | 21.28     | 37.62      | 26.13     |
-| GeoZero             | 29.53     | 31.26     | 33.96     | 31.58      | 57.04     | 44.30     | 15.74     | 39.03     | 66.08      | 45.56     |
-| **RADAR (GeoZero)** | **31.21** | **33.33** | 34.11     | **32.88**  | **58.15** | **50.52** | **20.47** | **43.05** | **67.47**  | **47.40** |
-
----
-
-### RADAR vs ViCrop (accuracy %, gains in parentheses)
-
-| Method             | LRS-VQA FAIR      | Bridge            | STAR              | MME Position      | Color              | Count             | LHRS-Bench        |
-| ------------------ | ----------------- | ----------------- | ----------------- | ----------------- | ------------------ | ----------------- | ----------------- |
-| Qwen3-VL           | 26.23             | 29.47             | 32.86             | 55.53             | 40.24              | 7.59              | 65.35             |
-| + ViCrop           | 27.46             | 28.91             | 33.31             | 54.57             | 42.87              | 10.60             | 63.51             |
-| **+ RADAR (Ours)** | **30.77 (+4.54)** | 29.94 (+0.47)     | **34.98 (+2.13)** | 56.64 (+1.11)     | **53.71 (+13.47)** | **15.01 (+7.42)** | **67.73 (+2.38)** |
-| GeoZero            | 29.53             | 31.26             | 33.96             | 57.04             | 44.30              | 15.74             | 66.08             |
-| + ViCrop           | 28.83             | 31.73             | 32.91             | 57.04             | 47.41              | 18.19             | 65.14             |
-| **+ RADAR (Ours)** | **31.21 (+1.68)** | **33.33 (+2.07)** | 34.11 (+0.15)     | **58.15 (+1.11)** | **50.52 (+6.22)**  | **20.47 (+4.73)** | **67.47 (+1.39)** |
-
----
-
-### Ablation: two-stage RADAR (Qwen3-VL-4B)
-
-| Configuration     | MME-RealWorld-RS | LHRS-Bench |
-| ----------------- | ---------------- | ---------- |
-| Baseline          | 34.45            | 65.36      |
-| RADAR w/o Stage 2 | 39.05            | 66.17      |
-| RADAR w/o Stage 1 | 38.88            | 66.87      |
-| **RADAR (full)**  | **41.79**        | **67.73**  |
-
----
-
-### Qualitative examples
-
-QCRA heatmaps from *where*-oriented (Stage1) and *what*-oriented (Stage2) queries; dashed boxes mark regions selected for zoom-in evidence extraction.
-
-
-<img width="3271" height="1327" alt="show" src="https://github.com/user-attachments/assets/25a07ffe-8b16-4d14-9306-3e88977a424f" />
-
-*Figure 3: Qualitative examples of RADAR's progressive evidence refinement.*
-
-## 📊 Data
-
-RSHBench evaluation set and related data:
-
-- **Dataset:** [RSHBench on Hugging Face](https://huggingface.co/datasets/LIUYIfasdf/RSHBench)
+| Methods   | Salinas OA | Botswana OA | Indian Pines OA | Houston OA |
+| --------- | ---------- | ----------- | --------------- | ---------- |
+| MFLVC     | 74.20      | 70.67       | 53.17           | 42.08      |
+| GCFAgg    | 50.13      | 58.53       | 38.14           | 26.19      |
+| ACCMVC    | 73.41      | 70.47       | 55.80           | 45.69      |
+| DSCRLE    | 75.25      | 92.73       | 48.88           | 61.29      |
+| SDST      | 75.80      | 74.26       | 54.22           | 54.93      |
+| **EMVCC** | **77.09**  | **94.40**   | **65.13**       | **70.36**  |
 
 ---
 
 ## 📜 Citation
 
-If you use this code or RSHBench in your research, please cite:
+If you use this code or the paper in your research, please cite:
 
 ```bibtex
-@article{liu2026radar,
-  title={Seeing Clearly without Training: Mitigating Hallucinations in Multimodal LLMs for Remote Sensing},
-  author={Liu, Yi and Zhang, Jing and Wang, Di and Tian, Xiaoyu and Guo, Haonan and Du, Bo},
-  journal={arXiv preprint arXiv:2603.02754},
-  year={2026},
-  doi={10.48550/arXiv.2603.02754}
+@inproceedings{luo2024emvcc,
+  title     = {EMVCC: Enhanced Multi-View Contrastive Clustering for Hyperspectral Images},
+  author    = {Luo, Fulin and Liu, Yi and Gong, Xiuwen and Nan, Zhixiong and Guo, Tan},
+  booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia (MM '24)},
+  year      = {2024},
+  publisher = {ACM},
+  doi       = {10.1145/3664647.3681600}
 }
 ```
-
----
-
-## 🤝 Acknowledgements
-
-This work is supported by Wuhan University, Zhongguancun Academy, and Chongqing University. We thank the communities behind LRS-VQA, MME-RealWorld-RS, LHRS-Bench, and related MLLM and remote sensing benchmarks.
 
