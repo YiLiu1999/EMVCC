@@ -47,6 +47,7 @@ Experiments on Salinas, Botswana, Indian Pines, and Houston show that EMVCC outp
 ---
 
 ## 🏗️ Method Overview
+<img width="2504" height="1136" alt="image" src="https://github.com/user-attachments/assets/6099af7d-e0f8-4267-bd7c-777d657d06a3" />
 
 - **Multi-view construction:** Split spectral channels in half → PCA to 3-D per half → sliding-window patches → data augmentation (crop, flip, rotate, etc.) for spatial views; full spectrum as an extra view.
 - **Spectrum-enhanced spatial view:**
@@ -179,6 +180,9 @@ Clustering metrics: **OA**, **Kappa**, **Purity**, **ARI**, **AMI**, **FMI**, **
 | DSCRLE    | 75.25      | 92.73       | 48.88           | 61.29      |
 | SDST      | 75.80      | 74.26       | 54.22           | 54.93      |
 | **EMVCC** | **77.09**  | **94.40**   | **65.13**       | **70.36**  |
+
+
+
 
 ---
 
