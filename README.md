@@ -1,5 +1,3 @@
-<div align="center">
-
 
 <h1 align="center">Seeing Clearly without Training</h1>
 
